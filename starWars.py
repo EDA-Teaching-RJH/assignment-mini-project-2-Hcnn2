@@ -33,7 +33,9 @@ def main():
     print("     FORCE-SENSITIVE BEINGS TRACKER - ROTS")
     print("="*65)
 
-    # AUTHENTICATION - only authorized users
+    names, sides, ranks, midis, ids = load_from_file()
+
+    # Only authorized users can enter, its not supposed to be designed for its security
     current_user = ""
     while True:
         entry = input("\nEnter your full name OR ID to log in: ").strip()
@@ -48,6 +50,30 @@ def main():
             break
         else:
             print("Not recognized in the archives. Try again.")
-    
+
     while True:
         choice = display_menu(current_user)
+        
+        if choice == "1":
+            add_being(names, sides, ranks, midis, ids)
+        elif choice == "2":
+            remove_being(names, sides, ranks, midis, ids)
+        elif choice == "3":
+            update_rank(names, ranks, ids)
+        elif choice == "4":
+            display_roster(names, sides, ranks, midis, ids)
+        elif choice == "5":
+            search_being(names, sides, ranks, midis, ids)
+        elif choice == "6":
+            save_to_file(names, sides, ranks, midis, ids)
+        elif choice == "7":
+            names, sides, ranks, midis, ids = load_from_file()
+            print("Roster reloaded from file.")
+        elif choice == "8":
+            print("\nThe Force will be with you... always. 🪐")
+            break
+        else:
+            print("Invalid choice. Try 1-8.")
+
+if __name__ == "__main__":
+    main()

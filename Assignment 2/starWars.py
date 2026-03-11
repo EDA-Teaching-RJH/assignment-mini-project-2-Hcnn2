@@ -83,7 +83,7 @@ def load_from_file(filename="force_beings.csv"):
         if len(names) == 0:
             raise FileNotFoundError
     except:
-        print("No saved file yet - starting with 10 beings from ROTS.")
+        print("No saved file yet - starting with 10 beings from ROTS.\nHint: Use \"Anakin Skywalker\" to enter\nSave to file as soon as you get in")
         return init_database()
     
     return names, sides, ranks, midis, ids

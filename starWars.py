@@ -1,5 +1,5 @@
 import csv
-
+import re
 
 
 class ForceBeing:  # superclass
@@ -20,7 +20,9 @@ class LightBeing(ForceBeing):  # subclass with inheritance
 class DarkBeing(ForceBeing):  # second subclass
     def __init__(self, name, rank, midi, pid):
         super().__init__(name, "Dark", rank, midi, pid)
-    
+
+
+
 
 
 
@@ -53,6 +55,9 @@ def display_menu(current_user):
     choice = input("Enter choice (1-8): ").strip()
     return choice
 
+
+
+#File I/O 
 def load_from_file(filename="force_beings.csv"):
     names = []
     sides = []
@@ -90,6 +95,35 @@ def save_to_file(names, sides, ranks, midis, ids, filename="force_beings.csv"):
     print("Roster saved to force_beings.csv!")
 
 
+
+
+# Helper functions
+def validate_force_id(pid):
+    pattern = r"^FORCE-\d{4}-[LD]$"
+    if re.fullmatch(pattern, pid):
+        return True
+    return False
+
+def validate_midichlorian_count(count_str):
+    if re.match(r'^\d{4,5}$', count_str):
+        if int(count_str) >= 1000:
+            return True
+    return False
+
+def flexible_search(term, name, side, pid):
+    pattern = re.compile(term, re.IGNORECASE)
+    if pattern.search(name) or pattern.search(side) or pattern.search(pid):
+        return True
+    return False
+
+def is_valid_rank_for_side(rank, side):
+    light_ranks = ["Padawan", "Jedi Knight", "Jedi Master", "Grand Master"]
+    dark_ranks = ["Sith Apprentice", "Sith Lord", "Darth", "Emperor"]
+    if side == "Light":
+        return rank in light_ranks
+    elif side == "Dark":
+        return rank in dark_ranks
+    return False
 
 
 

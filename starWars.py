@@ -1,3 +1,7 @@
+import csv
+
+
+
 class ForceBeing:  # superclass
     def __init__(self, name, side, rank, midi, pid):
         self.name = name
@@ -44,13 +48,37 @@ def display_menu(current_user):
     print("5. Search Beings")
     print("6. Save to File")
     print("7. Load from File")
-    print("8. Calculate Total Midichlorians")
-    print("9. Exit")
+    print("8. Exit")
     print("-"*65)
-    choice = input("Enter choice (1-9): ").strip()
+    choice = input("Enter choice (1-8): ").strip()
     return choice
 
-
+def load_from_file(filename="force_beings.csv"):
+    names = []
+    sides = []
+    ranks = []
+    midis = []
+    ids = []
+    try:
+        with open(filename, "r", newline="") as file:
+            reader = csv.reader(file)
+            next(reader)
+            for row in reader:
+                if len(row) == 5:
+                    names.append(row[0])
+                    sides.append(row[1])
+                    ranks.append(row[2])
+                    midis.append(int(row[3]))
+                    ids.append(row[4])
+        
+        # If the file was empty or had no data, use the original 10 beings
+        if len(names) == 0:
+            raise FileNotFoundError
+    except:
+        print("No saved file yet - starting with 10 beings from ROTS.")
+        return init_database()
+    
+    return names, sides, ranks, midis, ids
 
 
 

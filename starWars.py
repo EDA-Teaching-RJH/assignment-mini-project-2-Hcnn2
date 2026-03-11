@@ -1,5 +1,11 @@
+# This is my Star Wars Force-Sensitive Beings Tracker.
+# It tracks Jedi and Sith at the very start of ROTS.
+
+
+
 import csv
 import re
+
 
 
 class ForceBeing:  # superclass
@@ -20,9 +26,6 @@ class LightBeing(ForceBeing):  # subclass with inheritance
 class DarkBeing(ForceBeing):  # second subclass
     def __init__(self, name, rank, midi, pid):
         super().__init__(name, "Dark", rank, midi, pid)
-
-
-
 
 
 
@@ -96,7 +99,6 @@ def save_to_file(names, sides, ranks, midis, ids, filename="force_beings.csv"):
 
 
 
-
 # Helper functions
 def validate_force_id(pid):
     pattern = r"^FORCE-\d{4}-[LD]$"
@@ -124,6 +126,97 @@ def is_valid_rank_for_side(rank, side):
     elif side == "Dark":
         return rank in dark_ranks
     return False
+
+
+
+#Main feature functions
+def add_being(names, sides, ranks, midis, ids):
+    print("\n--- ADD NEW FORCE BEING ---")
+    name = input("Full Name: ").strip().title()
+    while True:
+        side = input("Side (Light or Dark): ").strip().title()
+        if side in ["Light", "Dark"]: break
+        print("Only Light or Dark allowed.")
+    
+    valid_ranks = ["Padawan", "Jedi Knight", "Jedi Master", "Grand Master"] if side == "Light" else ["Sith Apprentice", "Sith Lord", "Darth", "Emperor"]
+    while True:
+        rank = input(f"Rank: ").strip().title()
+        if rank in valid_ranks: break
+        print("Invalid rank for this side.")
+    
+    while True:
+        midi_str = input("Midichlorian Count: ").strip()
+        if validate_midichlorian_count(midi_str):
+            midi = int(midi_str)
+            break
+        print("Must be 4 or 5 digits and >= 1000.")
+    
+    while True:
+        pid = input("ID (FORCE-0000-L/D): ").strip().upper()
+        if validate_force_id(pid) and pid not in ids: break
+        print("ID must be unique and correct format.")
+    
+    
+    names.append(name)
+    sides.append(side)
+    ranks.append(rank)
+    midis.append(midi)
+    ids.append(pid)
+    print(f" {name} added!")
+
+def remove_being(names, sides, ranks, midis, ids):
+    print("\n--- REMOVE BEING ---")
+    pid = input("Enter ID: ").strip().upper()
+    if pid in ids:
+        idx = ids.index(pid)
+        removed = names[idx]
+        del names[idx]; del sides[idx]; del ranks[idx]; del midis[idx]; del ids[idx]
+        print(f" {removed} removed.")
+    else:
+        print("ID not found.")
+
+def update_rank(names, sides, ranks, ids):
+    print("\n--- UPDATE RANK ---")
+    pid = input("Enter ID: ").strip().upper()
+    if pid in ids:
+        idx = ids.index(pid)
+        side = sides[idx]
+        print(f"Current rank of {names[idx]}: {ranks[idx]}")
+        
+        if side == "Light":
+            valid = ["Padawan", "Jedi Knight", "Jedi Master", "Grand Master"]
+        else:
+            valid = ["Sith Apprentice", "Sith Lord", "Darth", "Emperor"]
+        
+        while True:
+            new_rank = input(f"New Rank (valid: {valid}): ").strip().title()
+            if new_rank in valid:
+                ranks[idx] = new_rank
+                print("Rank updated.")
+                break
+            print("Invalid rank for this side.")
+    else:
+        print("ID not found.")
+
+def display_all(names, sides, ranks, midis, ids):
+    print("="*90)
+    print("---All FORCE BEINGS---")
+    print("="*90)
+    print(f"{'ID':<12} {'Name':<22} {'Side':<8} {'Rank':<18} {'Midi':<10}")
+    for i in range(len(names)):
+        print(f"{ids[i]:<12} {names[i]:<22} {sides[i]:<8} {ranks[i]:<18} {midis[i]:<10}")
+    print("="*90)
+
+def search_being(names, sides, ranks, midis, ids):
+    print("\n--- SEARCH ---")
+    term = input("Search term: ").strip()
+    found = False
+    for i in range(len(names)):
+        if flexible_search(term, names[i], sides[i], ids[i]):
+            print(f"{ids[i]} | {names[i]} | {sides[i]} | {ranks[i]} | {midis[i]}")
+            found = True
+    if not found:
+        print("No matches.")
 
 
 
@@ -158,7 +251,7 @@ def main():
         elif choice == "2":
             remove_being(names, sides, ranks, midis, ids)
         elif choice == "3":
-            update_rank(names, ranks, ids)
+            update_rank(names, sides, ranks, ids)
         elif choice == "4":
             display_all(names, sides, ranks, midis, ids)
         elif choice == "5":

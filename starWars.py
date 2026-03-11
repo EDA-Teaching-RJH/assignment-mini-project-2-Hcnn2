@@ -1,3 +1,25 @@
+class ForceBeing:  # superclass
+    def __init__(self, name, side, rank, midi, pid):
+        self.name = name
+        self.side = side
+        self.rank = rank
+        self.midi = midi
+        self.pid = pid
+    
+    def get_info(self):
+        return f"{self.name} ({self.side} - {self.rank}) | Midi: {self.midi} | ID: {self.pid}"
+
+class LightBeing(ForceBeing):  # subclass with inheritance
+    def __init__(self, name, rank, midi, pid):
+        super().__init__(name, "Light", rank, midi, pid)
+    
+class DarkBeing(ForceBeing):  # second subclass
+    def __init__(self, name, rank, midi, pid):
+        super().__init__(name, "Dark", rank, midi, pid)
+    
+
+
+
 def init_database(): # Database of 5 light and 5 Dark side force beings (midis being midichlorian count)
     names = ["Obi-Wan Kenobi", "Anakin Skywalker", "Yoda", "Mace Windu", "Ahsoka Tano",
              "Darth Sidious", "Count Dooku", "Asajj Ventress", "General Grievous", "Darth Maul"]
@@ -27,6 +49,14 @@ def display_menu(current_user):
     print("-"*65)
     choice = input("Enter choice (1-9): ").strip()
     return choice
+
+
+
+
+
+
+
+
 
 def main():
     print("\n" + "="*65)
@@ -70,7 +100,7 @@ def main():
             names, sides, ranks, midis, ids = load_from_file()
             print("Roster reloaded from file.")
         elif choice == "8":
-            print("\nThe Force will be with you... always. 🪐")
+            print("\nMay the force be with you.")
             break
         else:
             print("Invalid choice. Try 1-8.")

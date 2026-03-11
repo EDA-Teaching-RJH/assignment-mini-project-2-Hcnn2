@@ -44,7 +44,7 @@ def display_menu(current_user):
     print("\n1. Add New Being")
     print("2. Remove Being")
     print("3. Update Rank")
-    print("4. Display Full Roster")
+    print("4. Display All Beings")
     print("5. Search Beings")
     print("6. Save to File")
     print("7. Load from File")
@@ -80,7 +80,14 @@ def load_from_file(filename="force_beings.csv"):
     
     return names, sides, ranks, midis, ids
 
-
+def save_to_file(names, sides, ranks, midis, ids, filename="force_beings.csv"):
+    # Write all 5 lists to a csv file
+    with open(filename, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Name", "Side", "Rank", "Midichlorian", "ID"])
+        for i in range(len(names)):
+            writer.writerow([names[i], sides[i], ranks[i], midis[i], ids[i]])
+    print("Roster saved to force_beings.csv!")
 
 
 
@@ -119,7 +126,7 @@ def main():
         elif choice == "3":
             update_rank(names, ranks, ids)
         elif choice == "4":
-            display_roster(names, sides, ranks, midis, ids)
+            display_all(names, sides, ranks, midis, ids)
         elif choice == "5":
             search_being(names, sides, ranks, midis, ids)
         elif choice == "6":

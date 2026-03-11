@@ -1,0 +1,11 @@
+Name,Side,Rank,Midichlorian,ID
+Obi-Wan Kenobi,Light,Jedi Master,13500,FORCE-0001-L
+Anakin Skywalker,Light,Jedi Knight,27700,FORCE-0002-L
+Yoda,Light,Grand Master,17500,FORCE-0003-L
+Mace Windu,Light,Jedi Master,12000,FORCE-0004-L
+Ahsoka Tano,Light,Padawan,14000,FORCE-0005-L
+Darth Sidious,Dark,Emperor,20000,FORCE-0006-D
+Count Dooku,Dark,Sith Lord,14000,FORCE-0007-D
+Asajj Ventress,Dark,Sith Apprentice,11000,FORCE-0008-D
+General Grievous,Dark,Sith Lord,5000,FORCE-0009-D
+Darth Maul,Dark,Sith Apprentice,12000,FORCE-0010-D

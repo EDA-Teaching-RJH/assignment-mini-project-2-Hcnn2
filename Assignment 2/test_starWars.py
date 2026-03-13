@@ -1,11 +1,10 @@
 
-
+import pytest
 from starWars import (
     validate_force_id, validate_midichlorian_count, flexible_search,
     is_valid_rank_for_side, init_database
 )
 
-# ====================== REGEX TESTS ======================
 def test_validate_force_id():
     assert validate_force_id("FORCE-1234-L") == True
     assert validate_force_id("FORCE-9999-D") == True
@@ -24,13 +23,11 @@ def test_flexible_search():
     assert flexible_search("dark", "Darth Sidious", "Dark", "FORCE-0006-D") == True
     assert flexible_search("xyz", "Yoda", "Light", "FORCE-0003-L") == False
 
-# ====================== HELPER TESTS ======================
 def test_is_valid_rank_for_side():
     assert is_valid_rank_for_side("Jedi Master", "Light") == True
     assert is_valid_rank_for_side("Jedi Master", "Dark") == False
     assert is_valid_rank_for_side("Darth", "Dark") == True
 
-# ====================== INIT & CALC TESTS ======================
 def test_init_database():
     names, sides, ranks, midis, ids = init_database()
     assert len(names) == 10
@@ -39,4 +36,4 @@ def test_init_database():
     assert "FORCE-0001-L" in ids
 
 
-print("All pytest tests loaded. Run with: pytest test_starWars.py -v")
+#Run with: pytest
